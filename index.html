@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Find and manage your study materials with PDF preview" />
+    <meta name="theme-color" content="#3b82f6" />
+    <link rel="manifest" href="/manifest.json" />
+    <title>PDF Hunt</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx?v=1765298855055"></script>
+    <script>
+      // Service Worker Registration & Update System
+      if ('serviceWorker' in navigator) {
+        let updateCheckInterval;
+        let registrationInstance = null;
+
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js?v=1765298855055')
+            .then((registration) => {
+              registrationInstance = registration;
+              console.log('SW registered: ', registration.scope);
+
+              // Listen for updates
+              registration.addEventListener('updatefound', () => {
+                const newWorker = registration.installing;
+                if (!newWorker) return;
+
+                newWorker.addEventListener('statechange', () => {
+                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    // New version available - show notification (don't auto-reload)
+                    console.log('New version available!');
+                    window.dispatchEvent(new CustomEvent('sw-update-available'));
+                  }
+                });
+              });
+
+              // Check for updates every 30 seconds
+              updateCheckInterval = setInterval(() => {
+                registration.update().catch(err => console.log('Update check failed:', err));
+              }, 30000);
+
+              // Check on visibility change
+              document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) {
+                  registration.update().catch(err => console.log('Update check failed:', err));
+                }
+              });
+            })
+            .catch((registrationError) => {
+              console.log('SW registration failed: ', registrationError);
+            });
+
+          // Listen for service worker messages
+          navigator.serviceWorker.addEventListener('message', (event) => {
+            if (event.data && event.data.type === 'SW_UPDATED') {
+              // Service worker updated, reload page
+              window.location.reload();
+            }
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
+

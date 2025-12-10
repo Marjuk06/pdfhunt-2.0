@@ -1,0 +1,20 @@
+PWA Icon Files Required
+
+You need to create the following icon files in the public folder:
+
+1. icon-192.png (192x192 pixels)
+2. icon-512.png (512x512 pixels)
+
+You can create these using:
+- Online tools like https://realfavicongenerator.net/
+- Image editing software (Photoshop, GIMP, etc.)
+- Or use a simple logo/image and resize it
+
+For now, you can use any PNG images with these dimensions as placeholders.
+The app will work without them, but the install prompt may not show properly.
+
+Optional screenshot files (for better PWA store listings):
+- screenshot-1.png (1280x720)
+- screenshot-2.png (1280x720)
+- screenshot-3.png (1280x720)
+
