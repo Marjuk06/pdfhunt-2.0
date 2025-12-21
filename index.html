@@ -1,15 +1,37 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WT5RRMQ9');</script>
+<!-- End Google Tag Manager -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Find and manage your study materials with PDF preview" />
     <meta name="theme-color" content="#3b82f6" />
     <meta name="google-adsense-account" content="ca-pub-3209142464626187">
+    <meta name="google-site-verification" content="8w_A0GkzKoimkMyauta-sZgqnY9lWm9Eo0Epouvo6II" />
     <link rel="manifest" href="/manifest.json" />
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E6XYV5DEH3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-E6XYV5DEH3');
+</script>
+
     <title>PDF Hunt</title>
   </head>
   <body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WT5RRMQ9"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
     <div id="root"></div>
     <script type="module" src="/src/main.jsx?v=1765298855055"></script>
     <script>
@@ -19,7 +41,7 @@
         let registrationInstance = null;
 
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js?v=1766330097189')
+          navigator.serviceWorker.register('/sw.js?v=1766342634706')
             .then((registration) => {
               registrationInstance = registration;
               console.log('SW registered: ', registration.scope);
