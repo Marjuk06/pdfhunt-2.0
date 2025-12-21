@@ -1,5 +1,5 @@
 // Auto-updated cache version
-const CACHE_VERSION = 'v1765298855055';
+const CACHE_VERSION = 'v1766299302165';
 const CACHE_NAME = `pdfhunt-${CACHE_VERSION}`;
 
 // Critical files that need Network-First strategy
