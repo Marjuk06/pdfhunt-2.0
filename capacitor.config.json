@@ -1,0 +1,9 @@
+{
+  "appId": "com.pdfhunt.app",
+  "appName": "Pdf Hunt",
+  "webDir": "dist",
+  "server": {
+    "url": "https://pdfhun2025.web.app",
+    "cleartext": true
+  }
+}

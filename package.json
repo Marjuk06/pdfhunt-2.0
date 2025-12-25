@@ -12,12 +12,16 @@
     "deploy": "node scripts/deploy.js && npm run build && firebase deploy --only hosting"
   },
   "dependencies": {
+    "@capacitor/android": "^8.0.0",
+    "@capacitor/cli": "^8.0.0",
+    "@capacitor/core": "^8.0.0",
     "firebase": "^11.0.2",
     "lucide-react": "^0.446.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
     "@vitejs/plugin-react": "^4.3.2",
     "autoprefixer": "^10.4.22",
     "postcss": "^8.5.6",

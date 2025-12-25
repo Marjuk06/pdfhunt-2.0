@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Pdf Hunt</string>
+    <string name="title_activity_main">Pdf Hunt</string>
+    <string name="package_name">com.pdfhunt.app</string>
+    <string name="custom_url_scheme">com.pdfhunt.app</string>
+</resources>
