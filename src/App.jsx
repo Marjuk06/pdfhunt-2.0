@@ -259,12 +259,24 @@ const IOSInstallModal = ({ onClose }) => (
 );
 
 const UpdateNotification = ({ onUpdate, onDismiss }) => (
-    <div className="fixed top-4 left-1/2 -translate-x-1/2 z-[100] animate-page-enter max-w-md w-full px-4">
-        <div className="glass-panel bg-gradient-to-r from-blue-500 to-purple-600 p-4 rounded-2xl shadow-2xl border border-white/20">
-            <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0"><Download size={20} className="text-white" /></div>
-                <div className="flex-1"><h3 className="font-bold text-white mb-1">New Update Available!</h3><p className="text-xs text-white/90">Get latest features</p></div>
-                <div className="flex gap-2"><button onClick={onUpdate} className="px-4 py-2 bg-white text-blue-600 rounded-xl text-sm font-bold transition-colors hover:bg-white/90 active:scale-95">Update</button><button onClick={onDismiss} className="p-2 text-white/80 hover:text-white transition-colors active:scale-95"><X size={18} /></button></div>
+    // FIX: Replaced 'left-1/2 -translate-x-1/2' with 'left-0 right-0 flex justify-center'
+    // This fixes the conflict with the animation that was pushing it to the right
+    <div className="fixed top-24 md:top-6 left-0 right-0 z-[100] flex justify-center px-4 pointer-events-none">
+        <div className="animate-page-enter w-full max-w-md pointer-events-auto">
+            <div className="glass-panel bg-gradient-to-r from-blue-500 to-purple-600 p-3 md:p-4 rounded-2xl shadow-2xl border border-white/20">
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+                        <Download size={20} className="text-white" />
+                    </div>
+                    <div className="flex-1">
+                        <h3 className="font-bold text-white mb-1 text-sm md:text-base">New Update Available!</h3>
+                        <p className="text-[10px] md:text-xs text-white/90">Get latest features</p>
+                    </div>
+                    <div className="flex gap-2">
+                        <button onClick={onUpdate} className="px-3 py-1.5 md:px-4 md:py-2 bg-white text-blue-600 rounded-xl text-xs md:text-sm font-bold transition-colors hover:bg-white/90 active:scale-95">Update</button>
+                        <button onClick={onDismiss} className="p-2 text-white/80 hover:text-white transition-colors active:scale-95"><X size={18} /></button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -284,23 +296,49 @@ const InstallPrompt = ({ deferredPrompt, onInstall, onDismiss }) => {
         </div>
     );
 };
-
 const FirstVisitTour = ({ onStart, onSkip }) => {
     const [currentSlide, setCurrentSlide] = useState(0);
-    const slides = [{ title: "Welcome to PDF Hunt!", description: "Your one-stop solution for managing study materials", icon: BookOpen, color: "from-blue-500 to-cyan-500" }, { title: "Browse & Search", description: "Easily navigate through folders and search for files", icon: Search, color: "from-emerald-500 to-green-500" }, { title: "PDF Preview", description: "View PDFs directly in your browser without downloading", icon: FileText, color: "from-purple-500 to-pink-500" }, { title: "Install App", description: "Install PDF Hunt on your device for offline access and faster loading", icon: Smartphone, color: "from-orange-500 to-red-500" }];
+    // FIX: Removed the 4th "Install App" slide. Now only 3 slides.
+    const slides = [
+        { title: "Welcome to PDF Hunt!", description: "Your one-stop solution for managing study materials", icon: BookOpen, color: "from-blue-500 to-cyan-500" },
+        { title: "Browse & Search", description: "Easily navigate through folders and search for files", icon: Search, color: "from-emerald-500 to-green-500" },
+        { title: "PDF Preview", description: "View PDFs directly in your browser without downloading", icon: FileText, color: "from-purple-500 to-pink-500" }
+    ];
+
     const handleNext = () => { if (currentSlide < slides.length - 1) setCurrentSlide(currentSlide + 1); else onStart(); };
     const SlideIcon = slides[currentSlide].icon;
+
     return (
         <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-page-enter">
             <div className="glass-panel bg-white/20 dark:bg-black/40 rounded-3xl p-8 max-w-md w-full shadow-2xl border border-white/20">
-                <div className="flex flex-col items-center text-center mb-6"><div className={`w-24 h-24 rounded-full bg-gradient-to-br ${slides[currentSlide].color} flex items-center justify-center mb-4 shadow-lg`}><SlideIcon size={40} className="text-white" /></div><h2 className="text-2xl font-extrabold text-gray-900 dark:text-white mb-2">{slides[currentSlide].title}</h2><p className="text-sm text-gray-600 dark:text-gray-300">{slides[currentSlide].description}</p></div>
-                <div className="flex justify-center gap-2 mb-6">{slides.map((_, idx) => (<div key={idx} className={`h-2 rounded-full transition-all ${idx === currentSlide ? 'w-8 bg-blue-500' : 'w-2 bg-gray-400'}`} />))}</div>
-                <div className="flex gap-3">{currentSlide > 0 && (<button onClick={() => { hapticFeedback.light(); setCurrentSlide(currentSlide - 1); }} className="flex-1 py-3 px-4 glass-input hover:bg-white/20 rounded-xl font-bold text-sm transition-colors flex items-center justify-center gap-2 active:scale-95"><ChevronLeft size={18} /> Previous</button>)}<button onClick={() => { hapticFeedback.medium(); handleNext(); }} className={`${currentSlide === 0 ? 'flex-1' : 'flex-1'} py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-sm transition-colors flex items-center justify-center gap-2 active:scale-95`}>{currentSlide === slides.length - 1 ? <><Download size={18} /> Install App</> : <>Next <ChevronRight size={18} /></>}</button><button onClick={() => { hapticFeedback.light(); onSkip(); }} className="py-3 px-4 glass-input hover:bg-white/20 rounded-xl font-bold text-sm transition-colors active:scale-95">Skip</button></div>
+                <div className="flex flex-col items-center text-center mb-6">
+                    <div className={`w-24 h-24 rounded-full bg-gradient-to-br ${slides[currentSlide].color} flex items-center justify-center mb-4 shadow-lg`}>
+                        <SlideIcon size={40} className="text-white" />
+                    </div>
+                    <h2 className="text-2xl font-extrabold text-gray-900 dark:text-white mb-2">{slides[currentSlide].title}</h2>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">{slides[currentSlide].description}</p>
+                </div>
+                <div className="flex justify-center gap-2 mb-6">
+                    {slides.map((_, idx) => (
+                        <div key={idx} className={`h-2 rounded-full transition-all ${idx === currentSlide ? 'w-8 bg-blue-500' : 'w-2 bg-gray-400'}`} />
+                    ))}
+                </div>
+                <div className="flex gap-3">
+                    {currentSlide > 0 && (
+                        <button onClick={() => { hapticFeedback.light(); setCurrentSlide(currentSlide - 1); }} className="flex-1 py-3 px-4 glass-input hover:bg-white/20 rounded-xl font-bold text-sm transition-colors flex items-center justify-center gap-2 active:scale-95">
+                            <ChevronLeft size={18} /> Previous
+                        </button>
+                    )}
+                    <button onClick={() => { hapticFeedback.medium(); handleNext(); }} className={`${currentSlide === 0 ? 'flex-1' : 'flex-1'} py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-sm transition-colors flex items-center justify-center gap-2 active:scale-95`}>
+                        {/* FIX: Changed text to 'Get Started' for the final slide */}
+                        {currentSlide === slides.length - 1 ? "Get Started" : <>Next <ChevronRight size={18} /></>}
+                    </button>
+                    <button onClick={() => { hapticFeedback.light(); onSkip(); }} className="py-3 px-4 glass-input hover:bg-white/20 rounded-xl font-bold text-sm transition-colors active:scale-95">Skip</button>
+                </div>
             </div>
         </div>
     );
 };
-
 // --- FIX: UPDATED ABOUT ME COMPONENT ---
 // Added default props and safe checks to prevent crashes if 'data' is missing
 const AboutMe = ({ data = {}, onAdminLogin, isAdmin }) => {
